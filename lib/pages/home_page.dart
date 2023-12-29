@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gdg_platform_tool/pages/generate_bevy_agenda_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -19,7 +20,30 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('GDG Platform Tool'),
       ),
-      body: Container(),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(width: 8.0),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const GenerateBevyAgendaPage(),
+                      ),
+                    );
+                  },
+                  child: const Text('Generate Bevy Agenda JSON'),
+                ),
+                const SizedBox(width: 8.0),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
