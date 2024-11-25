@@ -1,0 +1,38 @@
+name: Build Web Page
+on:
+  push:
+    branches:
+      - main
+    tags-ignore:
+      - v*
+
+jobs:
+  build:
+    name: Flutter Web build and hosting
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.x'
+          channel: 'stable'
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+      - name: Install dependencies
+        run: flutter packages get
+      - name: Build Web
+        run: flutter build web
+      - name: Fix service worker for GitHub Pages
+        run: sed -i '/ \"\/\",$/d' build/web/flutter_service_worker.js
+      - name: Deploy
+        run: |
+          cd build/web
+          git init
+          git config user.name  "CI"
+          git config user.email "actions@github.com"
+          git remote add secure-origin https://${{ secrets.ACCESS_TOKEN }}@github.com/gdg-twhk/gdg_platform_tool.git
+          git checkout -b gh-pages
+          git add .
+          git commit -m "Updated site"
+          git push --force secure-origin gh-pages
