@@ -19,7 +19,9 @@ class GenerateBevyAgendaPage extends StatefulWidget {
 
 class _GenerateBevyAgendaPageState extends State<GenerateBevyAgendaPage> {
   final _apiId = TextEditingController();
-  final _displayNameId = TextEditingController();
+  final _displayNameId = TextEditingController(
+    text: '84057',
+  );
 
   String? content;
 
@@ -30,49 +32,75 @@ class _GenerateBevyAgendaPageState extends State<GenerateBevyAgendaPage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('Generate Bevy Agenda JSON'),
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              TextField(
-                controller: _apiId,
-                decoration: const InputDecoration(
-                  hintText: 'Sessionize API ID',
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 32.0,
+          vertical: 16.0,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            TextField(
+              controller: _apiId,
+              decoration: const InputDecoration(
+                focusedBorder: OutlineInputBorder(),
+                enabledBorder: OutlineInputBorder(),
+                labelText: 'Sessionize API ID',
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            TextField(
+              controller: _displayNameId,
+              decoration: const InputDecoration(
+                focusedBorder: OutlineInputBorder(),
+                enabledBorder: OutlineInputBorder(),
+                labelText: 'Sessionize DisplayName ID',
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            Center(
+              child: TextButton(
+                onPressed: _fetch,
+                child: const Text('Fetch'),
+              ),
+            ),
+            const SizedBox(height: 16.0),
+            Row(
+              children: [
+                const Text('Bevy Agenda JSON'),
+                const SizedBox(width: 8.0),
+                TextButton.icon(
+                  onPressed: content == null
+                      ? null
+                      : () {
+                          Clipboard.setData(
+                            ClipboardData(text: content!),
+                          );
+                        },
+                  icon: const Icon(Icons.copy),
+                  label: const Text('Copy'),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8.0),
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(16.0),
+                  ),
+                  border: Border.all(color: Colors.grey),
+                ),
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: SelectableText(content ?? ''),
+                  ),
                 ),
               ),
-              const SizedBox(height: 16.0),
-              TextField(
-                controller: _displayNameId,
-                decoration: const InputDecoration(
-                  hintText: 'Sessionize DisplayName ID',
-                ),
-              ),
-              const SizedBox(height: 16.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextButton(
-                    onPressed: _fetch,
-                    child: const Text('Fetch'),
-                  ),
-                  const SizedBox(width: 8.0),
-                  TextButton(
-                    onPressed: content == null
-                        ? null
-                        : () {
-                            Clipboard.setData(
-                              ClipboardData(text: content!),
-                            );
-                          },
-                    child: const Text('Copy'),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16.0),
-              Text(content ?? ''),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
