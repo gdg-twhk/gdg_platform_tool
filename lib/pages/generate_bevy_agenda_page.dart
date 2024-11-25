@@ -19,6 +19,7 @@ class GenerateBevyAgendaPage extends StatefulWidget {
 
 class _GenerateBevyAgendaPageState extends State<GenerateBevyAgendaPage> {
   final _apiId = TextEditingController();
+  final _displayNameId = TextEditingController();
 
   String? content;
 
@@ -36,7 +37,18 @@ class _GenerateBevyAgendaPageState extends State<GenerateBevyAgendaPage> {
             children: <Widget>[
               TextField(
                 controller: _apiId,
+                decoration: const InputDecoration(
+                  hintText: 'Sessionize API ID',
+                ),
               ),
+              const SizedBox(height: 16.0),
+              TextField(
+                controller: _displayNameId,
+                decoration: const InputDecoration(
+                  hintText: 'Sessionize DisplayName ID',
+                ),
+              ),
+              const SizedBox(height: 16.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -92,7 +104,10 @@ class _GenerateBevyAgendaPageState extends State<GenerateBevyAgendaPage> {
                       .where((element) => element.id == e.id)
                       .firstOrNull;
                   final title = s?.questionAnswers
-                      ?.where((element) => element.id == 60915)
+                      ?.where(
+                        (element) =>
+                            element.id == int.parse(_displayNameId.text),
+                      )
                       .firstOrNull
                       ?.answer;
                   return title ?? e.name;
