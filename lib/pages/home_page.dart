@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     );
                   },
-                  child: const Text('Generate Bevy Agenda JSON'),
+                  child: const Text('Generate Sessionize Agenda JSON'),
                 ),
                 const SizedBox(width: 8.0),
               ],
