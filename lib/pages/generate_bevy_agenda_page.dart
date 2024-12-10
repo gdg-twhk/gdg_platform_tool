@@ -277,8 +277,8 @@ class _GenerateBevyAgendaPageState extends State<GenerateBevyAgendaPage> {
     for (var room in s.rooms ?? <Rooms>[]) {
       if (room.id case var id?) {
         json['rooms']?.add({
+          "id": id.toString(),
           "en": {"name": room.name},
-          "id": id,
           "zh": {"name": room.name}
         });
       }
@@ -326,7 +326,7 @@ class _GenerateBevyAgendaPageState extends State<GenerateBevyAgendaPage> {
                   ?.firstOrNull
                   ?.name ??
               '中文',
-          "room": room.id,
+          "room": room.id.toString(),
           "speakers": session.speakers?.map((e) => e.id).toList(),
           "tags": session.categories
                   ?.where((e) => e.id == sessionTagId)
